@@ -401,7 +401,7 @@ footer.app-footer{ text-align:center; color:var(--muted); font-size:12px; margin
       <div class="field" style="margin-top:14px;">
         <label>Câu tiếng Trung mẫu:</label>
         <div id="sampleTranslateSentence" style="font-family:var(--font-han); font-size:18px; color:var(--gold); margin-top:4px;">昨天我买了一本很有趣的书。</div>
-        <div style="font-size:13px; color:var(--muted);">Nghĩa tham khảo: Hôm qua tôi mua một quyển sách rất thú vị.</div>
+        <div id="sampleRef" style="font-size:13px; color:var(--muted); display: none; margin-top:4px;">Nghĩa tham khảo: Hôm qua tôi mua một quyển sách rất thú vị.</div>
       </div>
 
       <div class="field" style="margin-top:14px;">
@@ -11032,7 +11032,8 @@ function renderQuizResult() {
 
 // 8. LUYỆN DỊCH MODULE (Chấm điểm tương đối)
 function setupTranslate() {
-  document.getElementById('submitTranslateBtn').addEventListener('click', () => {
+document.getElementById('submitTranslateBtn').addEventListener('click', () => {
+document.getElementById('sampleRef').style.display = 'block';
     const userText = document.getElementById('userTranslateInput').value.trim().toLowerCase();
     const resultBox = document.getElementById('translationResultBox');
     const scoreEl = document.getElementById('transScore');
