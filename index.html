@@ -417,7 +417,206 @@ header.top .subtitle{ color:var(--muted); font-size:12px; margin-top:2px;}
 #cardFace:not(.flipped) .card-back{ visibility:hidden; }
 .flip-hint{ font-size:11px; color:#8a7a56; position:absolute; bottom:12px; }
 
-.card-toolbar{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+.card-toolbar{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }/* ==========================================
+   LUYỆN PHÁT ÂM
+========================================== */
+
+.pronunciation-panel {
+  display: none;
+
+  margin: 18px auto 0;
+
+  width: min(520px, 100%);
+
+  padding: 20px;
+
+  border-radius: 16px;
+
+  background: var(--surface2);
+
+  border: 1px solid #47536a;
+
+  text-align: center;
+
+  animation: pronunciationFade 0.25s ease;
+}
+
+
+.pronunciation-panel.open {
+  display: block;
+}
+
+
+@keyframes pronunciationFade {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Từ cần đọc */
+
+.pronunciation-label {
+  font-size: 12px;
+
+  color: var(--muted);
+
+  margin-bottom: 5px;
+}
+
+
+#pronunciationTarget {
+  font-family: var(--font-han);
+
+  font-size: 42px;
+
+  font-weight: 700;
+
+  color: var(--gold);
+
+  line-height: 1.3;
+}
+
+
+#pronunciationPinyin {
+  margin-top: 4px;
+
+  font-size: 18px;
+
+  font-weight: 600;
+
+  color: var(--seal-dark);
+}
+
+
+/* Nút ghi âm */
+
+.record-pronunciation-btn {
+  margin-top: 16px;
+
+  padding: 11px 20px;
+
+  border-radius: 12px;
+
+  border: 1px solid #47536a;
+
+  background: var(--surface);
+
+  color: var(--ink);
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+
+.record-pronunciation-btn:hover {
+  border-color: var(--gold);
+
+  transform: translateY(-1px);
+}
+
+
+.record-pronunciation-btn.recording {
+  background: #b83232;
+
+  border-color: #d65a5a;
+
+  color: white;
+
+  animation: recordingPulse 1s infinite;
+}
+
+
+@keyframes recordingPulse {
+
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+
+}
+
+
+/* Trạng thái */
+
+.recording-status {
+
+  margin-top: 10px;
+
+  font-size: 12px;
+
+  color: var(--muted);
+
+  min-height: 18px;
+}
+
+
+/* Kết quả */
+
+.pronunciation-result {
+
+  margin-top: 14px;
+
+  padding: 12px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+
+  display: none;
+}
+
+
+.pronunciation-result.correct {
+
+  display: block;
+
+  background: rgba(50, 180, 100, 0.12);
+
+  border: 1px solid rgba(50, 180, 100, 0.3);
+
+  color: #79d89b;
+}
+
+
+.pronunciation-result.wrong {
+
+  display: block;
+
+  background: rgba(220, 70, 70, 0.12);
+
+  border: 1px solid rgba(220, 70, 70, 0.3);
+
+  color: #ee8888;
+}
+
+
+.pronunciation-result.warning {
+
+  display: block;
+
+  background: rgba(210, 170, 70, 0.12);
+
+  border: 1px solid rgba(210, 170, 70, 0.3);
+
+  color: #e3c36d;
+}
 .icon-btn{
   background:var(--surface2); border:1px solid #47536a; color:var(--ink);
   border-radius:10px; padding:9px 14px; font-size:14px; cursor:pointer;
@@ -627,11 +826,56 @@ footer.app-footer{ text-align:center; color:var(--muted); font-size:12px; margin
       </div>
 
       <div class="card-toolbar">
-        <button class="icon-btn" id="flipBtn">🔄 Lật thẻ</button>
-        <button class="icon-btn" id="audioBtn">🔊 Phát âm</button>
-        <button class="icon-btn" id="strokeBtn">✍️ Xem nét chữ</button>
-      </div>
+  <button class="icon-btn" id="flipBtn">
+    🔄 Lật thẻ
+  </button>
 
+  <button class="icon-btn" id="audioBtn">
+    🔊 Nghe phát âm
+  </button>
+
+  <button class="icon-btn pronunciation-btn" id="pronunciationBtn">
+    🎤 Luyện phát âm
+  </button>
+
+  <button class="icon-btn" id="strokeBtn">
+    ✍️ Xem nét chữ
+  </button>
+</div>
+
+<!-- KHU VỰC LUYỆN PHÁT ÂM -->
+<div id="pronunciationPanel" class="pronunciation-panel">
+
+  <div class="pronunciation-target">
+    <div class="pronunciation-label">
+      Hãy đọc:
+    </div>
+
+    <div id="pronunciationTarget">
+      愛
+    </div>
+
+    <div id="pronunciationPinyin">
+      ài
+    </div>
+  </div>
+
+  <button
+    id="recordPronunciationBtn"
+    class="record-pronunciation-btn"
+  >
+    🎤 Nhấn để bắt đầu nói
+  </button>
+
+  <div id="recordingStatus" class="recording-status">
+    Chưa bắt đầu
+  </div>
+
+  <div id="pronunciationResult"
+       class="pronunciation-result">
+  </div>
+
+</div>
       <div class="card-nav">
         <button class="icon-btn" id="prevBtn">◀ Trước</button>
         <span id="cardPos">1 / 1</span>
@@ -11124,6 +11368,33 @@ function renderFlashcard() {
   document.getElementById('pinyinDisplay').textContent = item[2];
   document.getElementById('posDisplay').textContent = item[3] || '';
   document.getElementById('meaningDisplay').textContent = item[4] || '';
+  // Cập nhật phần luyện phát âm
+document.getElementById('pronunciationTarget').textContent = item[1];
+
+document.getElementById('pronunciationPinyin').textContent = item[2];
+
+
+// Xóa kết quả của từ cũ
+const pronunciationResult =
+  document.getElementById('pronunciationResult');
+
+pronunciationResult.className =
+  'pronunciation-result';
+
+pronunciationResult.innerHTML = '';
+
+
+// Reset trạng thái
+document.getElementById('recordingStatus').textContent =
+  'Chưa bắt đầu';
+
+const recordBtn =
+  document.getElementById('recordPronunciationBtn');
+
+recordBtn.classList.remove('recording');
+
+recordBtn.textContent =
+  '🎤 Nhấn để bắt đầu nói';
   document.getElementById('cardPos').textContent = `${currentIndex + 1} / ${currentPool.length}`;
   
   const cardFace = document.getElementById('cardFace');
@@ -11281,7 +11552,421 @@ function speakChinese(text) {
 
   window.speechSynthesis.speak(utterance);
 }
+// ==========================================
+// KIỂM TRA PHÁT ÂM
+// ==========================================
 
+const SpeechRecognition =
+  window.SpeechRecognition ||
+  window.webkitSpeechRecognition;
+
+let recognition = null;
+
+let isRecordingPronunciation = false;
+
+
+if (SpeechRecognition) {
+
+  recognition = new SpeechRecognition();
+
+  // Nhận diện tiếng Trung phổ thông
+  recognition.lang = 'zh-CN';
+
+  // Chỉ lấy kết quả cuối
+  recognition.interimResults = false;
+
+  // Mỗi lần nói một từ/câu
+  recognition.continuous = false;
+
+  // Chỉ lấy 1 kết quả
+  recognition.maxAlternatives = 3;
+
+
+} else {
+
+  console.warn(
+    'Trình duyệt không hỗ trợ Speech Recognition.'
+  );
+
+}
+
+
+// ==========================================
+// CHUẨN HÓA CHỮ TRUNG
+// ==========================================
+
+function normalizeChinese(text) {
+
+  return text
+    .replace(/[，。！？、；：,.!?;:]/g, '')
+    .replace(/\s+/g, '')
+    .trim();
+
+}
+
+
+// ==========================================
+// TÍNH MỨC ĐỘ KHỚP
+// ==========================================
+
+function calculatePronunciationMatch(
+  target,
+  spoken
+) {
+
+  target = normalizeChinese(target);
+
+  spoken = normalizeChinese(spoken);
+
+
+  if (!target || !spoken) {
+    return 0;
+  }
+
+
+  // Nói đúng hoàn toàn
+  if (target === spoken) {
+    return 100;
+  }
+
+
+  // Đếm số ký tự đúng
+  let correct = 0;
+
+  const maxLength =
+    Math.max(target.length, spoken.length);
+
+
+  for (
+    let i = 0;
+    i < Math.min(target.length, spoken.length);
+    i++
+  ) {
+
+    if (target[i] === spoken[i]) {
+      correct++;
+    }
+
+  }
+
+
+  return Math.round(
+    (correct / maxLength) * 100
+  );
+
+}
+
+
+// ==========================================
+// HIỂN THỊ KẾT QUẢ
+// ==========================================
+
+function showPronunciationResult(
+  target,
+  spoken,
+  score
+) {
+
+  const result =
+    document.getElementById(
+      'pronunciationResult'
+    );
+
+
+  result.style.display = 'block';
+
+
+  if (score >= 90) {
+
+    result.className =
+      'pronunciation-result correct';
+
+    result.innerHTML = `
+      <strong>🎉 Rất tốt!</strong><br>
+      Hệ thống nghe được:
+      <b>${spoken}</b><br>
+      Độ khớp: <b>${score}%</b>
+    `;
+
+  }
+
+  else if (score >= 60) {
+
+    result.className =
+      'pronunciation-result warning';
+
+    result.innerHTML = `
+      <strong>👍 Khá tốt!</strong><br>
+      Hệ thống nghe được:
+      <b>${spoken}</b><br>
+      Độ khớp: <b>${score}%</b><br>
+      <small>
+        Hãy nghe mẫu rồi đọc lại chậm hơn.
+      </small>
+    `;
+
+  }
+
+  else {
+
+    result.className =
+      'pronunciation-result wrong';
+
+    result.innerHTML = `
+      <strong>🔄 Chưa chính xác</strong><br>
+      Từ cần đọc:
+      <b>${target}</b><br>
+      Hệ thống nghe được:
+      <b>${spoken || 'Không nhận diện được'}</b><br>
+      Độ khớp: <b>${score}%</b>
+    `;
+
+  }
+
+}
+
+
+// ==========================================
+// BẮT ĐẦU KIỂM TRA
+// ==========================================
+
+function startPronunciationCheck() {
+
+  if (!recognition) {
+
+    alert(
+      'Trình duyệt này chưa hỗ trợ nhận diện giọng nói. ' +
+      'Hãy thử Chrome trên Android hoặc Chrome/Edge trên máy tính.'
+    );
+
+    return;
+  }
+
+
+  const target =
+    currentPool[currentIndex][1];
+
+
+  const recordBtn =
+    document.getElementById(
+      'recordPronunciationBtn'
+    );
+
+  const status =
+    document.getElementById(
+      'recordingStatus'
+    );
+
+  const result =
+    document.getElementById(
+      'pronunciationResult'
+    );
+
+
+  // Xóa kết quả cũ
+  result.className =
+    'pronunciation-result';
+
+  result.innerHTML = '';
+
+  result.style.display = 'none';
+
+
+  // Trạng thái đang ghi âm
+  isRecordingPronunciation = true;
+
+  recordBtn.classList.add('recording');
+
+  recordBtn.textContent =
+    '🔴 Đang nghe... Hãy đọc';
+
+  status.textContent =
+    '🎤 Đang nghe giọng của bạn...';
+
+
+  try {
+
+    recognition.start();
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+
+}
+
+
+// ==========================================
+// NHẬN KẾT QUẢ GIỌNG NÓI
+// ==========================================
+
+if (recognition) {
+
+  recognition.onresult = function(event) {
+
+    const spoken =
+      event.results[0][0].transcript.trim();
+
+
+    const target =
+      currentPool[currentIndex][1];
+
+
+    const score =
+      calculatePronunciationMatch(
+        target,
+        spoken
+      );
+
+
+    showPronunciationResult(
+      target,
+      spoken,
+      score
+    );
+
+
+    document.getElementById(
+      'recordingStatus'
+    ).textContent =
+      `Hệ thống nhận diện: ${spoken}`;
+
+  };
+
+
+  recognition.onerror = function(event) {
+
+    console.log(
+      'Speech recognition error:',
+      event.error
+    );
+
+
+    const status =
+      document.getElementById(
+        'recordingStatus'
+      );
+
+
+    if (event.error === 'not-allowed') {
+
+      status.textContent =
+        '⚠️ Hãy cho phép website sử dụng micro.';
+
+    }
+
+    else if (event.error === 'no-speech') {
+
+      status.textContent =
+        '⚠️ Chưa nghe thấy giọng nói. Hãy thử lại.';
+
+    }
+
+    else {
+
+      status.textContent =
+        '⚠️ Không nhận diện được. Hãy thử lại.';
+
+    }
+
+  };
+
+
+  recognition.onend = function() {
+
+    isRecordingPronunciation = false;
+
+
+    const recordBtn =
+      document.getElementById(
+        'recordPronunciationBtn'
+      );
+
+
+    recordBtn.classList.remove(
+      'recording'
+    );
+
+
+    recordBtn.textContent =
+      '🎤 Đọc lại';
+
+
+  };
+
+}
+
+
+// ==========================================
+// NÚT LUYỆN PHÁT ÂM
+// ==========================================
+
+document
+  .getElementById('pronunciationBtn')
+  .addEventListener('click', function(e) {
+
+    e.stopPropagation();
+
+
+    const panel =
+      document.getElementById(
+        'pronunciationPanel'
+      );
+
+
+    panel.classList.toggle('open');
+
+
+    if (panel.classList.contains('open')) {
+
+      document
+        .getElementById(
+          'pronunciationTarget'
+        )
+        .textContent =
+        currentPool[currentIndex][1];
+
+
+      document
+        .getElementById(
+          'pronunciationPinyin'
+        )
+        .textContent =
+        currentPool[currentIndex][2];
+
+    }
+
+  });
+
+
+// ==========================================
+// NÚT GHI ÂM
+// ==========================================
+
+document
+  .getElementById(
+    'recordPronunciationBtn'
+  )
+  .addEventListener('click', function(e) {
+
+    e.stopPropagation();
+
+
+    if (isRecordingPronunciation) {
+
+      if (recognition) {
+        recognition.stop();
+      }
+
+      return;
+
+    }
+
+
+    startPronunciationCheck();
+
+  });
 // 5. HANZIWRITER MODAL
 function openStrokeModal(word) {
   document.getElementById('strokeWordTitle').textContent = word;
