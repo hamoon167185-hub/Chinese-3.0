@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Học tiếng Trung · Hướng tới HSK chuẩn 3.0</title>
+<title> Học tiếng Trung cùng cô Hà · Hướng tới HSK chuẩn 3.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.7/dist/hanzi-writer.min.js"></script>
@@ -39,18 +39,277 @@ body{
   position: fixed; inset:0; background: rgba(15,20,28,0.95); z-index: 9999;
   display: flex; align-items: center; justify-content: center; padding: 20px;
 }
-.login-box {
-  background: var(--surface); border: 1px solid #3a475e; border-radius: var(--radius);
-  padding: 30px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-}
-.login-box h2 { font-family: var(--font-han); color: var(--gold); margin-bottom: 8px; }
-.login-box p { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
-.login-box input {
-  width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #47536a;
-  background: var(--surface2); color: var(--ink); font-size: 16px; text-align: center; margin-bottom: 12px;
-}
-.login-error { color: var(--bad); font-size: 12px; margin-bottom: 10px; display: none; }
+/* ==========================================
+   LOGIN - CÔ HÀ TIẾNG TRUNG
+========================================== */
 
+.login-box {
+  background: linear-gradient(
+    145deg,
+    #25334a,
+    #202c40
+  );
+
+  border: 1px solid rgba(209,164,76,0.28);
+
+  border-radius: 22px;
+
+  padding: 42px 38px 32px;
+
+  width: 100%;
+  max-width: 500px;
+
+  text-align: center;
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+
+/* Tên nhỏ phía trên */
+
+.login-brand-small {
+  color: var(--gold);
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 4px;
+
+  margin-bottom: 10px;
+}
+
+
+/* Tên thương hiệu */
+
+.login-box h2 {
+  font-family: var(--font-han);
+
+  color: var(--gold);
+
+  font-size: 34px;
+
+  margin: 0;
+
+  letter-spacing: 1px;
+}
+
+
+/* Slogan */
+
+.login-subtitle {
+  color: var(--muted);
+
+  font-size: 14px;
+
+  margin: 12px 0 28px;
+
+  line-height: 1.6;
+}
+
+
+/* Ô nhập */
+
+.login-input-wrap {
+  position: relative;
+
+  width: 100%;
+}
+
+
+.login-box input {
+  width: 100%;
+
+  height: 56px;
+
+  padding: 0 48px 0 18px;
+
+  border-radius: 13px;
+
+  border: 1px solid #4b5b73;
+
+  background: var(--surface2);
+
+  color: var(--ink);
+
+  font-size: 16px;
+
+  text-align: center;
+
+  outline: none;
+
+  transition: 0.25s;
+}
+
+
+.login-box input::placeholder {
+  color: #8994a5;
+}
+
+
+.login-box input:focus {
+  border-color: var(--gold);
+
+  box-shadow:
+    0 0 0 3px rgba(209,164,76,0.12);
+}
+
+
+/* Nút hiện mật khẩu */
+
+.toggle-password {
+  position: absolute;
+
+  right: 14px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  border: none;
+
+  background: transparent;
+
+  color: var(--muted);
+
+  cursor: pointer;
+
+  font-size: 18px;
+}
+
+
+.toggle-password:hover {
+  color: var(--gold);
+}
+
+
+/* Báo lỗi */
+
+.login-error {
+  color: #e66a6a;
+
+  font-size: 12px;
+
+  margin: 8px 0;
+
+  display: none;
+}
+
+
+/* Nút đăng nhập */
+
+.login-submit {
+  width: 100%;
+
+  height: 52px;
+
+  justify-content: center;
+
+  margin-top: 12px;
+
+  font-size: 16px;
+}
+
+
+/* Khu vực Zalo */
+
+.login-contact {
+  margin-top: 24px;
+
+  padding-top: 20px;
+
+  border-top:
+    1px solid rgba(255,255,255,0.07);
+}
+
+
+.forgot-text {
+  color: #8f99a9;
+
+  font-size: 12px;
+
+  margin-bottom: 10px;
+}
+
+
+.login-zalo {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  color: var(--ink);
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+
+.login-zalo:hover {
+  color: var(--gold);
+}
+
+
+.zalo-login-icon {
+  width: 30px;
+
+  height: 30px;
+
+  border-radius: 50%;
+
+  background: #0068ff;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 4px 12px rgba(0,104,255,0.25);
+}
+
+
+/* Footer */
+
+.login-footer {
+  margin-top: 22px;
+
+  color: #687588;
+
+  font-size: 10px;
+
+  letter-spacing: 0.5px;
+}
+
+
+/* Mobile */
+
+@media (max-width:520px) {
+
+  .login-box {
+    padding: 36px 24px 28px;
+  }
+
+  .login-box h2 {
+    font-size: 28px;
+  }
+
+}
 .wrap{max-width:920px;margin:0 auto;padding:20px 16px 60px; display:none;}
 .wrap.unlocked { display: block; }
 
@@ -243,17 +502,75 @@ footer.app-footer{ text-align:center; color:var(--muted); font-size:12px; margin
 </head>
 <body>
 
-<!-- ĐĂNG NHẬP BẢO MẬT -->
+<!-- ĐĂNG NHẬP -->
 <div id="loginOverlay">
   <div class="login-box">
-    <h2>Học Tiếng Trung HSK</h2>
-    <p>Nhập mã PIN hoặc Mật khẩu truy cập khóa học</p>
-    <input type="password" id="pinInput" placeholder="Nhập PIN (mặc định: 8888)">
-    <div id="loginError" class="login-error">Mật khẩu không chính xác!</div>
-    <button class="icon-btn primary" id="loginBtn" style="width:100%; justify-content:center;">Đăng nhập</button>
+
+    <div class="login-brand-small">HSK · CHINESE</div>
+
+    <h2>Cô Hà · Tiếng Trung</h2>
+
+    <p class="login-subtitle">
+      Học tiếng Trung cùng Cô Hà
+    </p>
+
+    <form id="loginForm">
+
+      <div class="login-input-wrap">
+
+        <input
+          type="password"
+          id="pinInput"
+          placeholder="Nhập mã PIN hoặc mật khẩu"
+          autocomplete="current-password"
+        >
+
+        <button
+          type="button"
+          id="togglePassword"
+          class="toggle-password"
+          title="Hiện mật khẩu"
+        >👁</button>
+
+      </div>
+
+      <div id="loginError" class="login-error">
+        Mật khẩu không chính xác!
+      </div>
+
+      <button
+        type="submit"
+        class="icon-btn primary login-submit"
+        id="loginBtn"
+      >
+        Đăng nhập
+      </button>
+
+    </form>
+
+    <div class="login-contact">
+
+      <div class="forgot-text">
+        Không nhớ mật khẩu?
+      </div>
+
+      <a
+        href="https://zalo.me/0962486745"
+        target="_blank"
+        class="login-zalo"
+      >
+        <span class="zalo-login-icon">Z</span>
+        Liên hệ Cô Hà qua Zalo
+      </a>
+
+    </div>
+
+    <div class="login-footer">
+      © 2026 Cô Hà · Tiếng Trung
+    </div>
+
   </div>
 </div>
-
 <!-- FLOATING ZALO BUTTON -->
 <a id="zaloFloatBtn" href="https://zalo.me/0962486745" target="_blank" class="zalo-float" title="Liên hệ giáo viên qua Zalo">💬</a>
 
@@ -10628,21 +10945,95 @@ let unknownSet = new Set(JSON.parse(localStorage.getItem('unknownSet') || '[]'))
 const ZALO_LINK = "https://zalo.me/0962486745"; // Có thể thay đổi dễ dàng
 document.getElementById('zaloFloatBtn').href = ZALO_LINK;
 
-// 1. ĐĂNG NHẬP BẢO MẬT CLIENT-SIDE
-document.getElementById('loginBtn').addEventListener('click', () => {
-  const pin = document.getElementById('pinInput').value;
-  if(pin === "8888" || pin === "hamoon" || pin === "1234") {
+// ==========================================
+// 1. ĐĂNG NHẬP
+// ==========================================
+
+const loginForm = document.getElementById('loginForm');
+const pinInput = document.getElementById('pinInput');
+const loginError = document.getElementById('loginError');
+
+
+// Đăng nhập bằng nút hoặc phím ENTER
+loginForm.addEventListener('submit', (event) => {
+
+  event.preventDefault();
+
+  const pin = pinInput.value.trim();
+
+  // Mật khẩu hợp lệ
+  if (
+    pin === "8888" ||
+    pin === "hamoon" ||
+    pin === "1234"
+  ) {
+
+    loginError.style.display = 'none';
+
     document.getElementById('loginOverlay').style.display = 'none';
+
     document.getElementById('mainWrap').classList.add('unlocked');
+
     initApp();
+
   } else {
-    document.getElementById('loginError').style.display = 'block';
+
+    loginError.style.display = 'block';
+
+    pinInput.focus();
+
+    pinInput.select();
+
   }
+
 });
+
+
+// ==========================================
+// HIỆN / ẨN MẬT KHẨU
+// ==========================================
+
+document
+  .getElementById('togglePassword')
+  .addEventListener('click', () => {
+
+    if (pinInput.type === 'password') {
+
+      pinInput.type = 'text';
+
+      document.getElementById('togglePassword').textContent = '🙈';
+
+    } else {
+
+      pinInput.type = 'password';
+
+      document.getElementById('togglePassword').textContent = '👁';
+
+    }
+
+  });
+
+
+// ==========================================
+// ĐĂNG XUẤT
+// ==========================================
+
 document.getElementById('logoutBtn').addEventListener('click', () => {
+
   document.getElementById('mainWrap').classList.remove('unlocked');
+
   document.getElementById('loginOverlay').style.display = 'flex';
-  document.getElementById('pinInput').value = '';
+
+  pinInput.value = '';
+
+  loginError.style.display = 'none';
+
+  pinInput.type = 'password';
+
+  document.getElementById('togglePassword').textContent = '👁';
+
+  pinInput.focus();
+
 });
 
 // 2. KHỞI TẠO ỨNG DỤNG & BỘ LỌC HSK
@@ -10805,13 +11196,90 @@ function setupFlashcardControls() {
   });
 }
 
-function speakChinese(text) {
-  if ('speechSynthesis' in window) {
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'zh-CN';
-    utterance.rate = 0.8;
-    window.speechSynthesis.speak(utterance);
+// ==========================================
+// PHÁT ÂM TIẾNG TRUNG
+// Ưu tiên giọng Mandarin Trung Quốc đại lục
+// ==========================================
+
+let chineseVoice = null;
+
+
+// Tìm giọng tiếng Trung
+function loadChineseVoice() {
+
+  const voices = window.speechSynthesis.getVoices();
+
+  if (!voices || voices.length === 0) {
+    return;
   }
+
+  // Ưu tiên zh-CN
+  chineseVoice =
+    voices.find(v => v.lang === 'zh-CN') ||
+
+    // Sau đó các biến thể tiếng Trung đại lục
+    voices.find(v =>
+      /^zh-CN/i.test(v.lang)
+    ) ||
+
+    // Cuối cùng mới lấy Mandarin khác
+    voices.find(v =>
+      /^zh/i.test(v.lang)
+    ) ||
+
+    null;
+}
+
+
+// Một số điện thoại load voice chậm
+loadChineseVoice();
+
+window.speechSynthesis.onvoiceschanged = () => {
+  loadChineseVoice();
+};
+
+
+// Hàm phát âm
+function speakChinese(text) {
+
+  if (!('speechSynthesis' in window)) {
+
+    alert('Thiết bị của bạn không hỗ trợ phát âm trực tiếp.');
+
+    return;
+  }
+
+
+  // Nếu đang đọc thì dừng trước
+  window.speechSynthesis.cancel();
+
+
+  const utterance =
+    new SpeechSynthesisUtterance(text);
+
+
+  // Giọng tiếng Trung
+  if (chineseVoice) {
+    utterance.voice = chineseVoice;
+    utterance.lang = chineseVoice.lang;
+  } else {
+    utterance.lang = 'zh-CN';
+  }
+
+
+  // Tốc độ đọc
+  utterance.rate = 0.75;
+
+
+  // Cao độ tự nhiên
+  utterance.pitch = 1;
+
+
+  // Âm lượng
+  utterance.volume = 1;
+
+
+  window.speechSynthesis.speak(utterance);
 }
 
 // 5. HANZIWRITER MODAL
