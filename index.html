@@ -1013,6 +1013,53 @@ footer.app-footer{ text-align:center; color:var(--muted); font-size:12px; margin
 </div>
 
 <script>
+  // --- THAY THẾ HOẶC BỔ SUNG CÁC HÀM NÀY VÀO CODE CŨ ---
+function normalizePinyin(text) {
+  if (!text) return "";
+  return text.toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[12345]/g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/[.,!?;:'"“”]/g, '')
+    .trim();
+}
+
+function applyToneSandwich(pinyinStr) {
+  const words = pinyinStr.split(' ').filter(w => w);
+  for (let i = 0; i < words.length - 1; i++) {
+    const t1 = words[i].match(/([12345])/)?.[1];
+    const t2 = words[i+1].match(/([12345])/)?.[1];
+    if (t1 === '3' && t2 === '3') words[i] = words[i].replace('3', '2');
+  }
+  return words.join(' ');
+}
+
+function convertNumberedPinyinToAccented(pinyinStr) {
+  const map = {
+    a: ['a', 'ā', 'á', 'ǎ', 'à', 'a'],
+    e: ['e', 'ē', 'é', 'ě', 'è', 'e'],
+    i: ['i', 'ī', 'í', 'ǐ', 'ì', 'i'],
+    o: ['o', 'ō', 'ó', 'ǒ', 'ò', 'o'],
+    u: ['u', 'ū', 'ú', 'ǔ', 'ù', 'u'],
+    v: ['ü', 'ǖ', 'ǘ', 'ǚ', 'ǜ', 'ü'],
+    ü: ['ü', 'ǖ', 'ǘ', 'ǚ', 'ǜ', 'ü']
+  };
+  return pinyinStr.split(' ').map(syllable => {
+    const match = syllable.match(/^([a-zžü]+)([1-5]?)$/i);
+    if (!match) return syllable;
+    let core = match[1];
+    let tone = match[2] ? parseInt(match[2]) : 0;
+    if (tone === 0 || tone === 5) return core;
+    let targetChar = '';
+    for (let v of ['a', 'e', 'o', 'u', 'i', 'ü']) {
+      if (core.includes(v)) { targetChar = v; break; }
+    }
+    if (targetChar && map[targetChar]) {
+      core = core.replace(targetChar, map[targetChar][tone]);
+    }
+    return core;
+  }).join(' ');
+}
 // ==========================================
 // BẢO TOÀN 100% DỮ LIỆU GỐC TỪ CODE CŨ
 // ==========================================
@@ -11511,85 +11558,61 @@ window.speechSynthesis.onvoiceschanged = () => {
 
 
 // Hàm phát âm
-function speakChinese(text) {
+function speakFromPinyin(pinyinText) {
+  return new Promise((resolve) => {
+    const sanded = applyToneSandwich(pinyinText);
+    const formattedText = convertNumberedPinyinToAccented(sanded);
+    const ut = new SpeechSynthesisUtterance(formattedText);
+    ut.lang = 'zh-CN';
+    ut.volume = 1;
+    ut.rate = 0.85;
+    ut.pitch = 1;
 
-  if (!('speechSynthesis' in window)) {
+    const voices = window.speechSynthesis.getVoices();
+    const bestVoice = voices.find(v => 
+      v.lang.toLowerCase().includes('zh') && (v.name.includes('Google') || v.name.includes('Standard') || v.name.includes('Hui'))
+    ) || voices.find(v => v.lang.toLowerCase().includes('zh'));
+    if (bestVoice) ut.voice = bestVoice;
 
-    alert('Thiết bị của bạn không hỗ trợ phát âm trực tiếp.');
-
-    return;
-  }
-
-
-  // Nếu đang đọc thì dừng trước
-  window.speechSynthesis.cancel();
-
-
-  const utterance =
-    new SpeechSynthesisUtterance(text);
-
-
-  // Giọng tiếng Trung
-  if (chineseVoice) {
-    utterance.voice = chineseVoice;
-    utterance.lang = chineseVoice.lang;
-  } else {
-    utterance.lang = 'zh-CN';
-  }
-
-
-  // Tốc độ đọc
-  utterance.rate = 0.75;
-
-
-  // Cao độ tự nhiên
-  utterance.pitch = 1;
-
-
-  // Âm lượng
-  utterance.volume = 1;
-
-
-  window.speechSynthesis.speak(utterance);
+    ut.onend = () => resolve();
+    ut.onerror = () => resolve();
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(ut);
+  });
 }
 // ==========================================
 // KIỂM TRA PHÁT ÂM
 // ==========================================
-
-const SpeechRecognition =
-  window.SpeechRecognition ||
-  window.webkitSpeechRecognition;
-
-let recognition = null;
-
-let isRecordingPronunciation = false;
-
-
-if (SpeechRecognition) {
-
-  recognition = new SpeechRecognition();
-
-  // Nhận diện tiếng Trung phổ thông
-  recognition.lang = 'zh-CN';
-
-  // Chỉ lấy kết quả cuối
-  recognition.interimResults = false;
-
-  // Mỗi lần nói một từ/câu
-  recognition.continuous = false;
-
-  // Chỉ lấy 1 kết quả
-  recognition.maxAlternatives = 3;
-
-
-} else {
-
-  console.warn(
-    'Trình duyệt không hỗ trợ Speech Recognition.'
-  );
-
+function checkPronunciation(eventResults, targetPinyin) {
+  const normTarget = normalizePinyin(targetPinyin);
+  for (let i = 0; i < eventResults.length; i++) {
+    for (let j = 0; j < eventResults[i].length; j++) {
+      const normSpoken = normalizePinyin(eventResults[i][j].transcript);
+      if (normSpoken === normTarget || normSpoken.includes(normTarget) || normTarget.includes(normSpoken)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
+// Trong sự kiện onresult của recognition:
+recognition.onresult = (event) => {
+  const target = lessons[currentIndex].pinyin;
+  const ok = checkPronunciation(event.results, target); // Quét toàn bộ kết quả trả về
+
+  const resEl = document.getElementById('result');
+  resEl.style.display = 'block';
+  resEl.className = 'result ' + (ok ? 'correct' : 'wrong');
+  resEl.textContent = ok ? '✅ ĐÚNG' : '❌ SAI';
+
+  playResultSound(ok ? 'correct' : 'wrong');
+
+  setTimeout(() => {
+    currentIndex = (currentIndex + 1) % lessons.length;
+    loadLesson(currentIndex);
+  }, 1500);
+};
 
 // ==========================================
 // CHUẨN HÓA CHỮ TRUNG
